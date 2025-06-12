@@ -1,0 +1,496 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>致我那个爱哭的朋友</title>
+    <link href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=Noto+Serif+SC:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #ffb6b9;
+            --secondary-color: #fcd5ce;
+            --accent-color: #a5d8ff;
+            --light-color: #fff6f6;
+            --dark-color: #2f3640;
+            --transition: all 0.8s cubic-bezier(0.19, 1, 0.22, 1);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Noto Serif SC', serif;
+            background: linear-gradient(135deg, #fcd5ce 0%, #fff6f6 100%);
+            color: var(--dark-color);
+            overflow-x: hidden;
+            min-height: 100vh;
+            position: relative;
+        }
+        .container {
+            width: 100%;
+            max-width: 800px;
+            margin: 0 auto;
+            min-height: 100vh;
+            position: relative;
+            padding: 20px 10px 60px 10px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .ribbons { position: fixed; top: 0; left: 0; width: 100vw; height: 80px; z-index: 1000; pointer-events: none; }
+        .balloon { position: fixed; width: 60px; height: 90px; z-index: 1000; animation: floatBalloon 6s ease-in-out infinite; }
+        .balloon.b1 { left: 10vw; top: 10vh; animation-delay: 0s;}
+        .balloon.b2 { left: 80vw; top: 18vh; animation-delay: 2s;}
+        .balloon.b3 { left: 50vw; top: 5vh; animation-delay: 1s;}
+        @keyframes floatBalloon { 0%,100% { transform: translateY(0) scale(1);} 50% { transform: translateY(-30px) scale(1.05);} }
+        .heart { position: fixed; width: 40px; height: 40px; z-index: 1000; animation: floatHeart 5s ease-in-out infinite; }
+        .heart.h1 { left: 20vw; bottom: 10vh; animation-delay: 0s;}
+        .heart.h2 { left: 70vw; bottom: 15vh; animation-delay: 1.5s;}
+        .heart.h3 { left: 40vw; bottom: 5vh; animation-delay: 2.5s;}
+        @keyframes floatHeart { 0%,100% { transform: translateY(0) scale(1);} 50% { transform: translateY(-20px) scale(1.1);} }
+        .clouds { position: fixed; left: 0; bottom: 0; width: 100vw; height: 80px; z-index: 1000; pointer-events: none; }
+        .animal { position: fixed; left: 10vw; bottom: 0; width: 80px; height: 80px; z-index: 1000; }
+        #particles-js { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 0; }
+        .blur-background { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background-size: cover; background-position: center; filter: blur(12px) brightness(0.7); z-index: 1; transition: var(--transition); opacity: 0; }
+        .blur-background.active { opacity: 1; }
+        .card {
+            background: rgba(255,255,255,0.92);
+            border-radius: 28px;
+            box-shadow: 0 10px 40px rgba(255,182,185,0.18), 0 2px 8px rgba(0,0,0,0.08);
+            width: 100%;
+            padding: 40px 24px;
+            margin: 24px 0;
+            transform: translateY(30px) scale(0.98);
+            opacity: 0;
+            transition: var(--transition);
+            border: 2px solid #ffe5ec;
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+            z-index: 2;
+        }
+        .card.active { transform: translateY(0) scale(1); opacity: 1; animation: bounceIn 1s; }
+        @keyframes bounceIn { 0% { opacity: 0; transform: scale(0.9);} 60% { opacity: 1; transform: scale(1.05);} 100% { opacity: 1; transform: scale(1);} }
+        .title {
+            font-size: 2.6rem;
+            margin-bottom: 20px;
+            background: linear-gradient(to right, #ffb6b9, #fcd5ce, #a5d8ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 700;
+            font-family: 'Ma Shan Zheng', cursive;
+            text-shadow: 0 4px 15px rgba(255,182,185,0.15);
+            position: relative;
+            display: inline-block;
+            line-height: 1.2;
+        }
+        .title::after {
+            content: '';
+            position: absolute;
+            bottom: -8px; left: 0; width: 100%; height: 4px;
+            background: linear-gradient(to right, #ffb6b9, #a5d8ff);
+            border-radius: 4px;
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 1s ease-out;
+        }
+        .card.active .title::after { transform: scaleX(1);}
+        .content { text-align: left; font-size: 1.18rem; line-height: 2; margin: 18px 0 22px 0; font-weight: 400; opacity: 0; transform: translateY(15px); transition: var(--transition);}
+        .card.active .content { opacity: 1; transform: translateY(0); transition-delay: 0.3s;}
+        .content p { margin-bottom: 18px; text-indent: 2em; position: relative;}
+        .content p::first-letter { font-size: 1.3em; color: #ffb6b9; font-weight: bold;}
+        .question-container { margin: 24px 0 0 0; opacity: 0; transform: translateY(20px); transition: var(--transition);}
+        .card.active .question-container { opacity: 1; transform: translateY(0); transition-delay: 0.6s;}
+        .question { font-size: 1.3rem; line-height: 1.6; margin-bottom: 18px; color: #ff6f91; position: relative; padding: 18px; background: rgba(255,182,185,0.13); border-radius: 16px; border-left: 5px solid #a5d8ff; box-shadow: 0 5px 15px rgba(255,182,185,0.08);}
+        .options { display: flex; justify-content: center; gap: 22px; margin-top: 18px;}
+        .btn { padding: 13px 32px; border-radius: 50px; font-size: 1.1rem; font-weight: 600; cursor: pointer; transition: var(--transition); border: none; outline: none; min-width: 120px; position: relative; overflow: hidden; box-shadow: 0 8px 25px rgba(255,182,185,0.13); z-index: 1; display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, #ffb6b9, #a5d8ff); color: #fff;}
+        .btn i { margin-left: 8px; transition: var(--transition);}
+        .btn:hover i { transform: translateX(5px);}
+        .btn:active { transform: translateY(3px) scale(0.98);}
+        .btn-yes { background: linear-gradient(135deg, #ffb6b9, #fcd5ce);}
+        .btn-no { background: linear-gradient(135deg, #a5d8ff, #b5ead7);}
+        .image-container { width: 100%; margin: 30px 0 0 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; opacity: 0; transform: translateY(30px); transition: var(--transition);}
+        .card.active .image-container { opacity: 1; transform: translateY(0); transition-delay: 0.9s;}
+        .memory-image { width: 100%; aspect-ratio: 1/1; border-radius: 18px; box-shadow: 0 8px 25px rgba(255,182,185,0.18); object-fit: cover; opacity: 0; transform: scale(0.8) rotate(-5deg); transition: all 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275); border: 2px solid #ffe5ec; filter: brightness(0.93);}
+        .memory-image.show { opacity: 1; transform: scale(1) rotate(0); filter: brightness(1);}
+        .inline-popup { background: rgba(255, 234, 167, 0.18); border-left: 4px solid #f1c40f; padding: 18px; border-radius: 12px; margin: 18px 0; display: flex; align-items: center; opacity: 0; transform: scale(0.95); transition: var(--transition); font-size: 1.08rem;}
+        .inline-popup.show { opacity: 1; transform: scale(1);}
+        .inline-popup i { font-size: 1.6rem; margin-right: 12px; color: #f1c40f;}
+        .inline-popup p { margin: 0;}
+        .continue-btn { background: linear-gradient(135deg, #f39c12, #f1c40f); color: white; margin: 24px auto 0; display: block; padding: 13px 36px; border-radius: 50px; font-size: 1.1rem; font-weight: 600; cursor: pointer; transition: var(--transition); border: none; outline: none; box-shadow: 0 8px 25px rgba(243, 156, 18, 0.13); opacity: 0; transform: translateY(20px);}
+        .continue-btn.show { opacity: 1; transform: translateY(0);}
+        .music-control { position: fixed; bottom: 30px; right: 30px; width: 60px; height: 60px; background: linear-gradient(135deg, #ffb6b9, #a5d8ff); border-radius: 50%; display: flex; justify-content: center; align-items: center; box-shadow: 0 10px 30px rgba(255,182,185,0.18); z-index: 100; cursor: pointer; transition: var(--transition);}
+        .music-control:hover { transform: scale(1.1) rotate(15deg);}
+        .music-control i { font-size: 28px; color: #fff;}
+        .signature { text-align: right; margin-top: 30px; font-style: italic; font-size: 1.2rem; color: #ffb6b9; opacity: 0; transform: translateX(20px); transition: var(--transition);}
+        .card.active .signature { opacity: 1; transform: translateX(0); transition-delay: 1.2s;}
+        .album { background: rgba(255,255,255,0.98); border-radius: 32px; box-shadow: 0 10px 40px rgba(255,182,185,0.18), 0 2px 8px rgba(0,0,0,0.08); padding: 40px 18px 30px 18px; margin: 40px 0 60px 0; z-index: 10; position: relative; animation: fadeIn 1.2s;}
+        .album-title { font-size: 2.1rem; font-family: 'Ma Shan Zheng', cursive; color: #ffb6b9; text-align: center; margin-bottom: 18px;}
+        .album-content { font-size: 1.1rem; color: #444; margin-bottom: 24px; line-height: 2;}
+        .album-content p {text-indent: 2em;}
+        .album-content p.signature {text-indent: 0; text-align: right;font-style: italic; color: #ffb6b9;margin-top: 30px;}
+        .album-images { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px;}
+        .album-images img { width: 100%; border-radius: 16px; box-shadow: 0 4px 18px rgba(255,182,185,0.13); object-fit: cover; aspect-ratio: 1/1;}
+        @media (max-width: 600px) {
+            .title { font-size: 1.5rem;}
+            .content { font-size: 1rem;}
+            .question { font-size: 1.05rem; padding: 12px;}
+            .btn { padding: 10px 18px; min-width: 90px; font-size: 1rem;}
+            .options { gap: 10px;}
+            .image-container { grid-template-columns: 1fr; gap: 10px;}
+            .album-images { grid-template-columns: 1fr;}
+        }
+        @keyframes fadeIn { from { opacity: 0;} to { opacity: 1;}}
+    </style>
+</head>
+<body>
+    <!-- 彩带SVG -->
+    <svg class="ribbons" viewBox="0 0 1440 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M0,40 Q360,80 720,40 T1440,40 V80 H0Z" fill="#ffb6b9" opacity="0.5"/>
+        <path d="M0,60 Q360,20 720,60 T1440,60 V80 H0Z" fill="#a5d8ff" opacity="0.4"/>
+        <path d="M0,70 Q360,50 720,70 T1440,70 V80 H0Z" fill="#fcd5ce" opacity="0.5"/>
+    </svg>
+    <!-- 气球SVG -->
+    <svg class="balloon b1" viewBox="0 0 60 90">
+        <ellipse cx="30" cy="40" rx="28" ry="38" fill="#ffb6b9"/>
+        <rect x="25" y="75" width="10" height="15" rx="5" fill="#fcd5ce"/>
+        <path d="M30 90 Q32 85 30 80 Q28 85 30 90" stroke="#a5d8ff" stroke-width="2" fill="none"/>
+    </svg>
+    <svg class="balloon b2" viewBox="0 0 60 90">
+        <ellipse cx="30" cy="40" rx="28" ry="38" fill="#a5d8ff"/>
+        <rect x="25" y="75" width="10" height="15" rx="5" fill="#ffb6b9"/>
+        <path d="M30 90 Q32 85 30 80 Q28 85 30 90" stroke="#fcd5ce" stroke-width="2" fill="none"/>
+    </svg>
+    <svg class="balloon b3" viewBox="0 0 60 90">
+        <ellipse cx="30" cy="40" rx="28" ry="38" fill="#fcd5ce"/>
+        <rect x="25" y="75" width="10" height="15" rx="5" fill="#a5d8ff"/>
+        <path d="M30 90 Q32 85 30 80 Q28 85 30 90" stroke="#ffb6b9" stroke-width="2" fill="none"/>
+    </svg>
+    <!-- 爱心SVG -->
+    <svg class="heart h1" viewBox="0 0 40 40">
+        <path d="M20 36 Q5 22 10 12 Q15 2 20 10 Q25 2 30 12 Q35 22 20 36Z" fill="#ffb6b9"/>
+    </svg>
+    <svg class="heart h2" viewBox="0 0 40 40">
+        <path d="M20 36 Q5 22 10 12 Q15 2 20 10 Q25 2 30 12 Q35 22 20 36Z" fill="#a5d8ff"/>
+    </svg>
+    <svg class="heart h3" viewBox="0 0 40 40">
+        <path d="M20 36 Q5 22 10 12 Q15 2 20 10 Q25 2 30 12 Q35 22 20 36Z" fill="#fcd5ce"/>
+    </svg>
+    <!-- 云朵SVG -->
+    <svg class="clouds" viewBox="0 0 1440 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <ellipse cx="200" cy="60" rx="120" ry="20" fill="#fff" opacity="0.7"/>
+        <ellipse cx="600" cy="70" rx="140" ry="18" fill="#fff" opacity="0.6"/>
+        <ellipse cx="1200" cy="65" rx="110" ry="15" fill="#fff" opacity="0.5"/>
+    </svg>
+    <!-- 小动物插画（小熊） -->
+    <svg class="animal" viewBox="0 0 80 80">
+        <ellipse cx="40" cy="60" rx="30" ry="18" fill="#fcd5ce"/>
+        <circle cx="40" cy="40" r="24" fill="#ffb6b9"/>
+        <circle cx="24" cy="28" r="8" fill="#fcd5ce"/>
+        <circle cx="56" cy="28" r="8" fill="#fcd5ce"/>
+        <ellipse cx="40" cy="50" rx="10" ry="6" fill="#fff"/>
+        <ellipse cx="40" cy="50" rx="4" ry="2" fill="#ffb6b9"/>
+        <circle cx="32" cy="38" r="3" fill="#fff"/>
+        <circle cx="48" cy="38" r="3" fill="#fff"/>
+        <circle cx="32" cy="38" r="1.5" fill="#333"/>
+        <circle cx="48" cy="38" r="1.5" fill="#333"/>
+        <ellipse cx="40" cy="60" rx="2" ry="1" fill="#333"/>
+    </svg>
+    <!-- 粒子背景 -->
+    <div id="particles-js"></div>
+    <!-- 背景虚化层 -->
+    <div class="blur-background" id="blurBackground"></div>
+    <div class="container">
+        <!-- 开场卡片 -->
+        <div class="card active" id="openingCard" onclick="nextStep(1)">
+            <h1 class="title">致我那个爱哭的朋友</h1>
+            <div class="content">
+                <p>毕业也要快乐！</p>
+            </div>
+            <div class="question-container" id="question1" style="display:none;">
+                <div class="question">你是不是一个爱哭鬼？<i class="fas fa-tissue" style="margin-left: 10px;"></i></div>
+                <div class="options">
+                    <button class="btn btn-yes" onclick="answerQuestion(1, true, event)">是的 <i class="fas fa-check"></i></button>
+                    <button class="btn btn-no" onclick="answerQuestion(1, false, event)">不是 <i class="fas fa-times"></i></button>
+                </div>
+            </div>
+        </div>
+        <!-- 三张照片展示 -->
+        <div class="card" id="imageCard1" onclick="nextStep(2)">
+            <div class="image-container">
+                <img src="1.jpg" alt="记忆照片" class="memory-image">
+                <img src="2.jpg" alt="记忆照片" class="memory-image">
+                <img src="3.jpg" alt="记忆照片" class="memory-image">
+            </div>
+            <div class="inline-popup" id="popup1">
+                <i class="fas fa-camera-retro"></i>
+                <p>我就说我有证据吧！</p>
+            </div>
+            <button class="continue-btn" id="continueBtn1">继续阅读 <i class="fas fa-arrow-down"></i></button>
+        </div>
+        <!-- 第一部分内容 -->
+        <div class="card" id="part1Card" onclick="nextStep(3)">
+            <div class="content">
+                <p>让我写一封离别信，我是写不来的，我也写不来那些煽情字句。而且毕业离别也不一定要伤感，毕竟总有再见的时候，还是要以开心为主的。传统的信你应该收到过不少，所以我给你来一点不一样的（其实是字写得不好看，电脑用多了不会写字了，哈哈哈）。怎么样这样的还是第一次收到吧，而且不用担心搞丢。还得是我呀！</p>
+                <p>好了言归正传！已经记不清认识你多久了，想来也有个两年了，很幸运能认识你这样一个开朗活泼的女孩。虽然我们没有一起热烈的开始大学生活，但我们却一起盛大的结束了这段旅程（假装很热烈盛大，不然没话说了）。大学生活也算是就此结束了，以后我们都要步入不同的生活了，既然注定要走，那就先祝你能看到更多不同的风景，体验更多不一样的旅程，认识更多知心的朋友，享受未来更加美好的生活。</p>
+                <p>虽然说你爱哭，但是还是希望你以后继续爱哭，毕竟爱哭的孩子有糖吃，哈哈哈。而且以后能光明正大的哭的机会可不多了，总不能当着学生的面就哇哇哭起来吧，以后只能偷偷的躲起来哭了。有什么事情也不能像在学校一样和室友当面说了，最多只能在微信上面诉说一下，很多事情都得自己抗了。哭一下也是很好的，不要让自己变成一个满是怨气，没有朝气的女孩了，那就不是我认识的那个你了。所以呀，以后也还是要做个爱哭的人。别人都说，爱哭的人都是善良重感情的，在我看来你也确实是如此的。这样好也不好，所以希望你以后遇到的人和事都能像你一样善待他人一样善待你，不然吃亏的肯定是你。</p>
+            </div>
+            <div class="question-container" id="question2" style="display:none;">
+                <div class="question">你有没有在哭？<i class="fas fa-sad-tear" style="margin-left: 10px;"></i></div>
+                <div class="options">
+                    <button class="btn btn-yes" onclick="answerQuestion(2, true, event)">有 <i class="fas fa-check"></i></button>
+                    <button class="btn btn-no" onclick="answerQuestion(2, false, event)">没有 <i class="fas fa-times"></i></button>
+                </div>
+            </div>
+        </div>
+        <!-- 第二部分内容 -->
+        <div class="card" id="part2Card" onclick="nextStep(4)">
+            <div class="content">
+                <p>希望你继续爱哭，但你可别真的就变成个爱哭鬼了，还是爱笑更好一些，笑一笑十年少嘛。而且你笑起来那么好看，笑少了岂不是很吃亏，少了那么多靓丽风景。你的那些同事们可就要感到可惜了（手动狗头）。生活本来就很多苦，要多笑笑中和一下，看开一点。带学生，教学生什么的，遇到不爱听，不服管的就不用那么较真，不然最后难受的还是自己。这话说出来确实不太合适，但是前例实在是太多了，有时候自私一点不是坏事，多为自己想一想。你有个好的心情才能更有动力的教更多的学生，你说对吧。所以每天多笑一笑，也好让你的大白牙出来透透气。</p>
+                <p>我都是想到啥写啥的，没有什么逻辑可言，我怕一停下来就不知道该写什么了。可能你看到这段话的时候我已经回家了，也可能我会写完就发给你，都随缘。你就当我们是在闲聊，我确实是没写过什么离别信的，不过你都说留个当纪念了，我也就只好硬着头皮试一试了。虽然以后不在一个地方了，时间也被工作占据了，但想要见面还是很容易的。所以还是那句话，没必要伤感，快乐最重要。只是短暂的离别而已，没什么大不了的，以后你去我那玩，我请你吃饭，大概率是我亲手做的，如果不是，就当我没说过这句话。我那好玩的地方还是有一些的，住的地方也是有的，都是不用担心的，前提是我在市里。</p>
+                <p>好了差不多也就这些了，希望下次见到你，你依旧活泼开朗，依旧可爱动人，依旧朝气满满。人生里看似偶然却又必经的告别，无约而至，无人可免，所以不必难过。最后愿所有的美好都可以不期而遇，所有的快乐都可以无约而至，幻想的暴富都可以如约而至，哈哈哈。</p>
+                <p class="signature">——个没有留下姓名的帅哥</p>
+            </div>
+            <div class="question-container" id="question3" style="display:none;">
+                <div class="question">我是不是帅哥？<i class="fas fa-user-tie" style="margin-left: 10px;"></i></div>
+                <div class="options">
+                    <button class="btn btn-yes" onclick="answerQuestion(3, true, event)">是 <i class="fas fa-check"></i></button>
+                    <button class="btn btn-no" onclick="answerQuestion(3, false, event)">不是 <i class="fas fa-times"></i></button>
+                </div>
+            </div>
+        </div>
+        <!-- 最终照片展示 -->
+        <div class="card" id="finalImageCard">
+            <div class="image-container">
+                <img src="5.jpg" alt="记忆照片" class="memory-image">
+                <img src="6.jpg" alt="记忆照片" class="memory-image">
+                <img src="7.jpg" alt="记忆照片" class="memory-image">
+            </div>
+            <div class="inline-popup" id="popup2">
+                <i class="fas fa-heart"></i>
+                <p>愿我们的友谊长存！</p>
+            </div>
+        </div>
+        <!-- 纪念册整合展示 -->
+        <div class="album" id="album" style="display:none;">
+            <div class="album-title">我们的纪念册</div>
+            <div class="album-content" id="albumContent"></div>
+            <div class="album-images" id="albumImages"></div>
+        </div>
+    </div>
+    <!-- 音乐控制按钮 -->
+    <div class="music-control" onclick="toggleMusic()">
+        <i class="fas fa-music"></i>
+    </div>
+    <!-- 背景音乐 -->
+    <audio id="bgMusic" loop>
+        <source src="ryez.mp3" type="audio/mpeg">
+    </audio>
+    <!-- 粒子JS库 -->
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script>
+        let currentStep = 1;
+        const allImages = [
+            "1.jpg",
+            "2.jpg",
+            "3.jpg",
+            "4.jpg",
+            "5.jpg",
+            "6.jpg",
+            "7.jpg",
+            "8.jpg",
+            "9.jpg",
+            "10.jpg"
+        ];
+        const allText = [
+            "毕业也要快乐！",
+            "让我写一封离别信，我是写不来的，我也写不来那些煽情字句。而且毕业离别也不一定要伤感，毕竟总有再见的时候，还是要以开心为主的。传统的信你应该收到过不少，所以我给你来一点不一样的（其实是字写得不好看，电脑用多了不会写字了，哈哈哈）。怎么样这样的还是第一次收到吧，而且不用担心搞丢。还得是我呀！",
+            "好了言归正传！已经记不清认识你多久了，想来也有个两年了，很幸运能认识你这样一个开朗活泼的女孩。虽然我们没有一起热烈的开始大学生活，但我们却一起盛大的结束了这段旅程（假装很热烈盛大，不然没话说了）。大学生活也算是就此结束了，以后我们都要步入不同的生活了，既然注定要走，那就先祝你能看到更多不同的风景，体验更多不一样的旅程，认识更多知心的朋友，享受未来更加美好的生活。",
+            "虽然说你爱哭，但是还是希望你以后继续爱哭，毕竟爱哭的孩子有糖吃，哈哈哈。而且以后能光明正大的哭的机会可不多了，总不能当着学生的面就哇哇哭起来吧，以后只能偷偷的躲起来哭了。有什么事情也不能像在学校一样和室友当面说了，最多只能在微信上面诉说一下，很多事情都得自己抗了。哭一下也是很好的，不要让自己变成一个满是怨气，没有朝气的女孩了，那就不是我认识的那个你了。所以呀，以后也还是要做个爱哭的人。别人都说，爱哭的人都是善良重感情的，在我看来你也确实是如此的。这样好也不好，所以希望你以后遇到的人和事都能像你一样善待他人一样善待你，不然吃亏的肯定是你。",
+            "希望你继续爱哭，但你可别真的就变成个爱哭鬼了，还是爱笑更好一些，笑一笑十年少嘛。而且你笑起来那么好看，笑少了岂不是很吃亏，少了那么多靓丽风景。你的那些同事们可就要感到可惜了（手动狗头）。生活本来就很多苦，要多笑笑中和一下，看开一点。带学生，教学生什么的，遇到不爱听，不服管的就不用那么较真，不然最后难受的还是自己。这话说出来确实不太合适，但是前例实在是太多了，有时候自私一点不是坏事，多为自己想一想。你有个好的心情才能更有动力的教更多的学生，你说对吧。所以每天多笑一笑，也好让你的大白牙出来透透气。",
+            "我都是想到啥写啥的，没有什么逻辑可言，我怕一停下来就不知道该写什么了。可能你看到这段话的时候我已经回家了，也可能我会写完就发给你，都随缘。你就当我们是在闲聊，我确实是没写过什么离别信的，不过你都说留个当纪念了，我也就只好硬着头皮试一试了。虽然以后不在一个地方了，时间也被工作占据了，但想要见面还是很容易的。所以还是那句话，没必要伤感，快乐最重要。只是短暂的离别而已，没什么大不了的，以后你去我那玩，我请你吃饭，大概率是我亲手做的，如果不是，就当我没说过这句话。我那好玩的地方还是有一些的，住的地方也是有的，都是不用担心的，前提是我在市里。",
+            "好了差不多也就这些了，希望下次见到你，你依旧活泼开朗，依旧可爱动人，依旧朝气满满。人生里看似偶然却又必经的告别，无约而至，无人可免，所以不必难过。最后愿所有的美好都可以不期而遇，所有的快乐都可以无约而至，幻想的暴富都可以如约而至，哈哈哈。",
+            "——一个没有留下姓名的帅哥"
+        ];
+        const backgroundImages = [
+            allImages[0], allImages[1], allImages[2], allImages[3]
+        ];
+        function initParticles() {
+            particlesJS('particles-js', {
+                "particles": {
+                    "number": { "value": 80, "density": { "enable": true, "value_area": 800 }},
+                    "color": { "value": "#ffb6b9" },
+                    "shape": { "type": "circle" },
+                    "opacity": { "value": 0.5, "random": true, "anim": { "enable": true, "speed": 1, "opacity_min": 0.1, "sync": false }},
+                    "size": { "value": 3, "random": true, "anim": { "enable": true, "speed": 2, "size_min": 0.1, "sync": false }},
+                    "line_linked": { "enable": true, "distance": 150, "color": "#a5d8ff", "opacity": 0.2, "width": 1 },
+                    "move": { "enable": true, "speed": 1, "direction": "none", "random": true, "straight": false, "out_mode": "out", "bounce": false }
+                },
+                "interactivity": {
+                    "detect_on": "canvas",
+                    "events": {
+                        "onhover": { "enable": true, "mode": "grab" },
+                        "onclick": { "enable": true, "mode": "push" },
+                        "resize": true
+                    },
+                    "modes": {
+                        "grab": { "distance": 140, "line_linked": { "opacity": 0.5 }},
+                        "bubble": { "distance": 400, "size": 40, "duration": 2, "opacity": 8, "speed": 3 },
+                        "repulse": { "distance": 200, "duration": 0.4 },
+                        "push": { "particles_nb": 4 },
+                        "remove": { "particles_nb": 2 }
+                    }
+                },
+                "retina_detect": true
+            });
+        }
+        // 点击卡片进入下一步
+        function nextStep(step) {
+            if (currentStep === step) {
+                // 延迟问题展示逻辑
+                if (step === 1) {
+                    // 显示第一个问题
+                    document.getElementById('question1').style.display = 'block';
+                } else if (step === 3) {
+                    // 显示第二个问题
+                    document.getElementById('question2').style.display = 'block';
+                } else if (step === 4) {
+                    // 显示第三个问题
+                    document.getElementById('question3').style.display = 'block';
+                } else {
+                    showNextContent();
+                }
+            }
+        }
+        // 回答问题后自动进入下一步
+        function answerQuestion(questionNum, answer, event) {
+            event.stopPropagation();
+            if (questionNum === 1) {
+                if (answer) {
+                    showInlinePopup('不错，和我想得一样！', 'fa-face-grin-beam');
+                    setTimeout(() => {
+                        document.getElementById('question1').style.display = 'none';
+                        showNextContent();
+                    }, 3000);
+                } else {
+                    showInlinePopup('不对，邦邦给你两拳，好好回答，我可是有证据的。', 'fa-face-angry');
+                }
+            } else if (questionNum === 2) {
+                if (answer) {
+                    showInlinePopup('我就知道，勉为其难的安慰你一下好了（假装安慰）。', 'fa-face-smile-wink');
+                } else {
+                    showInlinePopup('哦吼，是嘛，那就当你没哭好了！', 'fa-face-grin-beam-sweat');
+                }
+                setTimeout(() => {
+                    document.getElementById('question2').style.display = 'none';
+                    showNextContent();
+                }, 1200);
+            } else if (questionNum === 3) {
+                if (answer) {
+                    showInlinePopup('很不错很有眼光！', 'fa-thumbs-up');
+                    setTimeout(() => {
+                        document.getElementById('question3').style.display = 'none';
+                        showNextContent();
+                    }, 1200);
+                } else {
+                    showInlinePopup('说违心的话可不好，重新回答', 'fa-face-grin-tongue-wink');
+                }
+            }
+        }
+        function showInlinePopup(message, icon) {
+            const popup = document.createElement('div');
+            popup.className = 'inline-popup show';
+            popup.innerHTML = `<i class="fas ${icon}"></i><p>${message}</p>`;
+            const card = document.querySelector(`.card.active`);
+            card.appendChild(popup);
+            setTimeout(() => {
+                popup.classList.remove('show');
+                setTimeout(() => { if (popup.parentNode) popup.parentNode.removeChild(popup); }, 500);
+            }, 7000);
+        }
+        function showNextContent() {
+            const currentCard = document.querySelector(`.card.active`);
+            currentCard.classList.remove('active');
+            setTimeout(() => {
+                if (currentStep === 1) {
+                    document.getElementById('imageCard1').classList.add('active');
+                    document.getElementById('blurBackground').style.backgroundImage = `url('${backgroundImages[0]}')`;
+                    document.getElementById('blurBackground').classList.add('active');
+                    const images = document.querySelectorAll('#imageCard1 .memory-image');
+                    images.forEach((img, index) => {
+                        setTimeout(() => {
+                            img.classList.add('show');
+                            if (index === images.length - 1) {
+                                setTimeout(() => {
+                                    document.getElementById('popup1').classList.add('show');
+                                    document.getElementById('continueBtn1').classList.add('show');
+                                }, 800);
+                            }
+                        }, index * 500);
+                    });
+                    currentStep = 2;
+                } else if (currentStep === 2) {
+                    document.getElementById('part1Card').classList.add('active');
+                    document.getElementById('blurBackground').style.backgroundImage = `url('${backgroundImages[1]}')`;
+                    currentStep = 3;
+                } else if (currentStep === 3) {
+                    document.getElementById('part2Card').classList.add('active');
+                    document.getElementById('blurBackground').style.backgroundImage = `url('${backgroundImages[2]}')`;
+                    currentStep = 4;
+                } else if (currentStep === 4) {
+                    document.getElementById('finalImageCard').classList.add('active');
+                    document.getElementById('blurBackground').style.backgroundImage = `url('${backgroundImages[3]}')`;
+                    const images = document.querySelectorAll('#finalImageCard .memory-image');
+                    images.forEach((img, index) => {
+                        setTimeout(() => {
+                            img.classList.add('show');
+                            if (index === images.length - 1) {
+                                setTimeout(() => {
+                                    document.getElementById('popup2').classList.add('show');
+                                    setTimeout(showAlbum, 5000);
+                                }, 800);
+                            }
+                        }, index * 500);
+                    });
+                    currentStep = 5;
+                }
+            }, 500);
+        }
+        document.getElementById('continueBtn1').addEventListener('click', function(e) {
+            e.stopPropagation();
+            showNextContent();
+        });
+        const bgMusic = document.getElementById('bgMusic');
+        function toggleMusic() {
+            if (bgMusic.paused) bgMusic.play();
+            else bgMusic.pause();
+        }
+        document.addEventListener('click', function() {
+            bgMusic.play().catch(e => {});
+        }, { once: true });
+        window.onload = function() {
+            initParticles();
+            document.getElementById('blurBackground').style.backgroundImage = `url('${backgroundImages[0]}')`;
+            setTimeout(() => {
+                document.getElementById('blurBackground').classList.add('active');
+            }, 100);
+        };
+        function showAlbum() {
+            document.querySelectorAll('.card').forEach(card => card.style.display = 'none');
+            const album = document.getElementById('album');
+            album.style.display = 'block';
+            let html = '';
+            for(let i=0; i<allText.length-1; i++) {
+                 html += `<p>${allText[i]}</p>`;
+            }
+            html += allText[allText.length-1];
+            document.getElementById('albumContent').innerHTML = html;
+            let imgHtml = '';
+            allImages.forEach(src => imgHtml += `<img src="${src}" alt="记忆照片">`);
+            document.getElementById('albumImages').innerHTML = imgHtml;
+            setTimeout(() => {
+                album.scrollIntoView({behavior: "smooth"});
+            }, 300);
+        }
+    </script>
+</body>
+</html>
